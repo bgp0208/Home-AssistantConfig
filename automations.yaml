@@ -1,0 +1,9 @@
+- id: '1543446347951'
+  alias: Start Homekit
+  trigger:
+  - event: start
+    platform: homeassistant
+  condition: []
+  action:
+  - delay: 00:05
+  - service: homekit.start

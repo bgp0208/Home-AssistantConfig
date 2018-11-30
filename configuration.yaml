@@ -1,0 +1,115 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: 0
+  longitude: 0
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 0
+  # metric for Metric, imperial for Imperial
+  unit_system: imperial
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: US/Pacific
+  # Customization file
+  customize: !include customize.yaml
+
+# Show links to resources in log and frontend
+introduction:
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+# http:
+#   base_url: example.duckdns.org:8123
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+# Weather prediction
+sensor:
+  - platform: yr
+
+# Text to speech
+tts:
+  - platform: google
+
+# Cloud
+cloud:
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+
+# Media
+media_player:
+  - platform: emby
+    host: 192.168.0.100
+    api_key: 3e990ec3a517491eb16176d1d36f22b5zoneeventhomeassistantstatetemplate*eventstate
+  - platform: roku
+  
+panel_iframe:
+  configurator:
+    title: Configurator
+    icon: mdi:wrench
+    url: http://192.168.0.100:3218
+
+ecobee:
+    api_key: !secret ecobee_api
+    
+neato:
+  username: !secret neato_user
+  password: !secret neato_pw
+  
+ios:
+
+switch:
+  - platform: tplink
+    host: 192.168.0.127
+  - platform: command_line
+    switches:
+      #toggles office Roku TV
+      roku_tv:
+        command_on: 'curl -X POST http://192.168.0.124:8060/keypress/PowerOn'
+        command_off: 'curl -X POST http://192.168.0.124:8060/keypress/PowerOff'
+        command_state: 'curl -s GET http://192.168.0.124:8060/query/device-info | grep power-mode | sed -e "s:<power-mode>DisplayOff</power-mode>:OFF:" -e "s:<power-mode>PowerOn</power-mode>:ON:"'
+        value_template: '{{ value == "ON" }}'
+
+ring:
+    username: !secret ring_user
+    password: !secret ring_pw
+    
+camera:
+  - platform: ring
+ 
+homekit: 
+    auto-start: False
+ 
+wink:
