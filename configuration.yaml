@@ -72,7 +72,7 @@ script: !include scripts.yaml
 media_player:
   - platform: emby
     host: 192.168.0.100
-    api_key: 3e990ec3a517491eb16176d1d36f22b5zoneeventhomeassistantstatetemplate*eventstate
+    api_key: !secret emby_api
   - platform: roku
   
 panel_iframe:
